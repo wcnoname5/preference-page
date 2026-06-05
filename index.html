@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2AFC 偏好選擇實驗 Demo</title>
+    <title>偏好測量實驗 Demo</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <h1>2AFC 偏好選擇實驗</h1>
+    <h1>偏好測量實驗</h1>
 
     <!-- 設定區 -->
     <section id="setup">
@@ -15,20 +15,36 @@
         <fieldset>
           <legend>更新演算法</legend>
           <label><input type="radio" name="algorithm" value="HaB" checked /> HaB</label>
-          <label><input type="radio" name="algorithm" value="BiM" disabled /> BiM（未實作）</label>
-          <label><input type="radio" name="algorithm" value="ASA" disabled /> ASA（未實作）</label>
-          <label><input type="radio" name="algorithm" value="BiM-S" disabled /> BiM-S（未實作）</label>
+          <label><input type="radio" name="algorithm" value="ASA" /> ASA </label>
+          <label><input type="radio" name="algorithm" value="BiM" /> BiM</label>
+          <label><input type="radio" name="algorithm" value="BiM-S" /> BiM-S</label>
         </fieldset>
 
         <fieldset>
           <legend>結束條件</legend>
           <label>
             <input type="radio" name="stop" value="fixed" checked /> 固定 iteration 數：
-            <input type="number" id="iterations" value="5" min="1" />
+            <input
+              type="number"
+              id="iterations"
+              value="5"
+              min="5"
+              max="10"
+              step="1"
+              required
+            />
           </label>
           <label>
             <input type="radio" name="stop" value="convergence" /> 收斂（stepSize &lt;）：
-            <input type="number" id="threshold" value="50" min="0" />
+            <input
+              type="number"
+              id="threshold"
+              value="50"
+              min="5"
+              max="100"
+              step="1"
+              required
+            />
           </label>
         </fieldset>
 
@@ -38,6 +54,7 @@
 
     <!-- 實驗主畫面 -->
     <section id="experiment" hidden>
+      <h2>請選擇比較吸引你的選項</h2>
       <p id="status"></p>
 
       <div class="alternatives">
@@ -53,15 +70,24 @@
         </div>
       </div>
 
-      <div class="choices">
+      <!-- 2FAC -->
+      <div class="choices" id="choices">
         <button id="choose-left">選左</button>
         <button id="choose-right">選右</button>
       </div>
 
-      <h3>Debug</h3>
+      <!-- BiM-S ending-->
+      <div id="slider-area" hidden>
+        <input type="range" id="slider" />
+        <span id="slider-value"></span>
+        <button id="slider-confirm">確定</button>
+      </div>
+
+      <h3>Details</h3>
+      <p>Stage: <span id="debug-stage"></span></p>
       <table>
         <thead>
-          <tr><th>stage</th><th>iteration</th><th>stepSize</th></tr>
+          <tr><th>Iteration</th><th>targetValue</th><th>Last stepSize</th><th>Bounds</th></tr>
         </thead>
         <tbody id="debug-body"></tbody>
       </table>

@@ -20,12 +20,49 @@ fieldset label {
   gap: 1rem;
 }
 
+/* hidden 屬性要蓋過 .choices / #slider-area 的 display，否則隱藏不掉 */
+[hidden] {
+  display: none !important;
+}
+
 .option {
   flex: 1;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
+}
+
+/* 目標 T 所在的那一格 payoff：用黑框標出（由 JS 依 target 的 side + field 套用） */
+.option p.target {
+  display: inline-block;
+  border: 2px solid #000;
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+}
+
+/* payoff 數字顏色：正藍、負紅、零黑 */
+.pos {
+  color: #1565c0;
+}
+
+.neg {
+  color: #c62828;
+}
+
+.zero {
+  color: #000;
+}
+
+#slider-area {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+#slider-area input[type="range"] {
+  flex: 1;
 }
 
 .choices {
