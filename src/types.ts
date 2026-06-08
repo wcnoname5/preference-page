@@ -12,11 +12,11 @@ export interface TargetCell {
   field: PayoffField;
 }
 
-// 演算法在迭代間需要保存的狀態（決定更新量大小）
 export interface AlgorithmState {
   stage: number;
   iteration: number;
   stepSize: number;
+  value: number; // current target `T` value
   target: TargetCell;
   // ASA specific:
   ASAc?: number;
@@ -25,20 +25,20 @@ export interface AlgorithmState {
   bnds?: [number, number]; // bounds: specific to BiM & BiM-S
 }
 
-// 每一步回傳的結果：下一輪要顯示的數值 + 新狀態
-export interface Step {
-  alternatives: Alternatives;
-  state: AlgorithmState;
+// Initial Task setup pass to algorithms for state initialization.
+export interface TaskSetup {
+  stage: number;
+  initialValue: number;
+  target: TargetCell;
+  bnds: [number, number];
 }
 
 export interface UpdateAlgorithm {
   readonly name: string;
-
-  // 初始化：回傳第一輪要顯示的數值與初始狀態
-  init(): Step;
-
-
-  next(current: Alternatives, state: AlgorithmState, selection: Selection): Step;
+  // method: setup initial state (starting point)
+  init(setup: TaskSetup): AlgorithmState;
+  //method: update value according to selection
+  next(state: AlgorithmState, selection: Selection): AlgorithmState;
 }
 
 export interface StopCondition {
@@ -46,14 +46,35 @@ export interface StopCondition {
   isDone(state: AlgorithmState): boolean;
 }
 
-// slider 收尾步驟的範圍（BiM-S 的最後一步 matching 用）
 export interface SliderSpec {
   bnds: [number, number];
   initial: number;
 }
 
-// 可選能力：停止條件成立時，若演算法實作此介面，
-// 外殼不直接結束，而是多呈現一個 slider matching 步驟。
+// A interface for algorithm that needs to specify a final slider task
 export interface SliderFinalizable {
-  sliderFinalize(state: AlgorithmState, current: Alternatives): SliderSpec;
+  sliderFinalize(state: AlgorithmState): SliderSpec;
+}
+
+// ============= Experiment Config and Task Description =============
+
+export type BoundScheme = "equal_expectation" | "fixed_bnd";
+
+export interface ExperimentConfig {
+  G: number; // > 0
+  g: number; // G > g > 0
+  l: number; // l < 0
+  k: number; // integer >= 1, # of x+ / x- ponits
+  boundScheme: BoundScheme;
+}
+
+// Description of eliciting a target value (inner loop)
+export interface Task {
+  name: string; 
+  stage: number; // for debugging only. not used in logic
+  template: Alternatives; // Fixed alternative outcomes (starting point for target cell)
+  target: TargetCell;
+  isTargetSureThing: boolean;
+  initialValue: number; // starting point
+  bnds: [number, number]; // for BiM & BiM-S only. ASA & HaB ignores it
 }

@@ -8,7 +8,7 @@
   </head>
   <body>
     <h1>偏好測量實驗</h1>
-
+    
     <!-- 設定區 -->
     <section id="setup">
       <form id="setup-form">
@@ -19,43 +19,50 @@
           <label><input type="radio" name="algorithm" value="BiM" /> BiM</label>
           <label><input type="radio" name="algorithm" value="BiM-S" /> BiM-S</label>
         </fieldset>
-
+        
         <fieldset>
           <legend>結束條件</legend>
           <label>
             <input type="radio" name="stop" value="fixed" checked /> 固定 iteration 數：
             <input
-              type="number"
-              id="iterations"
-              value="5"
-              min="5"
-              max="10"
-              step="1"
-              required
+            type="number"
+            id="iterations"
+            value="5"
+            min="5"
+            max="10"
+            step="1"
+            required
             />
           </label>
           <label>
             <input type="radio" name="stop" value="convergence" /> 收斂（stepSize &lt;）：
             <input
-              type="number"
-              id="threshold"
-              value="50"
-              min="5"
-              max="100"
-              step="1"
-              required
+            type="number"
+            id="threshold"
+            value="50"
+            min="5"
+            max="100"
+            step="1"
+            required
             />
           </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>邊界設定 (bound scheme)</legend>
+          <!-- TODO: if algorithm === "ASA" or === "HaB", disable the fixed bnd option -->
+          <label><input type="radio" name="bound" value="equal_expectation" checked /> Equal-expectation</label>
+          <label><input type="radio" name="bound" value="fixed_bnd" /> Fixed width（5000）</label>
         </fieldset>
 
         <button type="submit">Start</button>
       </form>
     </section>
-
+    
     <!-- 實驗主畫面 -->
     <section id="experiment" hidden>
-      <h2>請選擇比較吸引你的選項</h2>
-      <p id="status"></p>
+      <h2 style="text-align:center">請選擇比較吸引你的選項</h2>
+      <p id="task-info" style="text-align:center"></p>
 
       <div class="alternatives">
         <div class="option">
@@ -69,28 +76,40 @@
           <p>payoffB：<span id="right-b"></span></p>
         </div>
       </div>
-
+      
       <!-- 2FAC -->
       <div class="choices" id="choices">
         <button id="choose-left">選左</button>
         <button id="choose-right">選右</button>
       </div>
-
+      
       <!-- BiM-S ending-->
       <div id="slider-area" hidden>
         <input type="range" id="slider" />
         <span id="slider-value"></span>
         <button id="slider-confirm">確定</button>
       </div>
+      <!-- round 之間：繼續下一輪（預設隱藏，本輪結束才出現） -->
+      <div class="choices" id="next" hidden>
+        <button id="next-button">Next Round</button>
+      </div>
+
+      <!-- 全部 round 結束：返回開始（預設隱藏） -->
+      <div class="choices" id="end" hidden>
+        <button id="restart-button">返回開始</button>
+      </div>
 
       <h3>Details</h3>
-      <p>Stage: <span id="debug-stage"></span></p>
+      <p id="status"></p>
       <table>
         <thead>
           <tr><th>Iteration</th><th>targetValue</th><th>Last stepSize</th><th>Bounds</th></tr>
         </thead>
         <tbody id="debug-body"></tbody>
       </table>
+
+      <!-- 全部結束後顯示最終估計序列 -->
+      <div id="result" hidden></div>
     </section>
 
     <script type="module" src="./dist/main.js"></script>

@@ -33,15 +33,22 @@ fieldset label {
   text-align: center;
 }
 
-/* 目標 T 所在的那一格 payoff：用黑框標出（由 JS 依 target 的 side + field 套用） */
-.option p.target {
-  display: inline-block;
-  border: 2px solid #000;
+/* 每行 payoff 都預留 2px 邊框 + 相同 padding（用透明邊框佔位），
+   這樣加上黑框時尺寸不變，左右兩格的 payoffA / payoffB 仍對齊 */
+.option p {
+  display: block; /* 每行 payoff 各佔一列（換行） */
+  width: fit-content; /* 框只縮到剛好包住內容 */
+  margin: 0.5rem auto; /* 上下留白；auto 讓縮寬的框水平置中 */
+  border: 2px solid transparent;
   border-radius: 4px;
   padding: 0.1rem 0.4rem;
 }
 
-/* payoff 數字顏色：正藍、負紅、零黑 */
+.option p.target {
+  border-color: #000;
+}
+
+/* payoff font color */
 .pos {
   color: #1565c0;
 }
