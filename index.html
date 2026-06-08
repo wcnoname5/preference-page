@@ -13,11 +13,11 @@
     <section id="setup">
       <form id="setup-form">
         <fieldset>
-          <legend>更新演算法</legend>
-          <label><input type="radio" name="algorithm" value="HaB" checked /> HaB</label>
+          <legend> 更新演算法 </legend>
+          <label><input type="radio" name="algorithm" value="HaB" checked /> HaB </label>
           <label><input type="radio" name="algorithm" value="ASA" /> ASA </label>
-          <label><input type="radio" name="algorithm" value="BiM" /> BiM</label>
-          <label><input type="radio" name="algorithm" value="BiM-S" /> BiM-S</label>
+          <label><input type="radio" name="algorithm" value="BiM" /> BiM </label>
+          <label><input type="radio" name="algorithm" value="BiM-S" /> BiM-S </label>
         </fieldset>
         
         <fieldset>
@@ -35,7 +35,7 @@
             />
           </label>
           <label>
-            <input type="radio" name="stop" value="convergence" /> 收斂（stepSize &lt;）：
+            <input type="radio" name="stop" value="convergence" /> 收斂（Step Size &lt;）：
             <input
             type="number"
             id="threshold"
@@ -49,7 +49,12 @@
         </fieldset>
 
         <fieldset>
-          <legend>邊界設定 (bound scheme)</legend>
+          <legend> 初始值(及初始邊界)設定</legend>
+          <p>每次測量開始時初始值(如果是 BiM 或 BiM-S，則同時決定初始區間)決定的方法，共兩類：</p>
+          <ol>
+            <li>Equal-expectation：初始值設在使得<b>兩個選項期望值相等</b>的位置。</li>
+            <li>Fixed Boundary Width (用於BiM/BiM-S)：固定初始區間寬度為定值 (設定為 5000)，初始值即為此區間中點。</li>
+          </ol>
           <!-- TODO: if algorithm === "ASA" or === "HaB", disable the fixed bnd option -->
           <label><input type="radio" name="bound" value="equal_expectation" checked /> Equal-expectation</label>
           <label><input type="radio" name="bound" value="fixed_bnd" /> Fixed width（5000）</label>
@@ -61,19 +66,19 @@
     
     <!-- 實驗主畫面 -->
     <section id="experiment" hidden>
-      <h2 style="text-align:center">請選擇比較吸引你的選項</h2>
-      <p id="task-info" style="text-align:center"></p>
+      <p class="task-description">一罐子內有若干紅色、藍色球，你不知道其比例。現在從罐中抽取一顆球。以下有兩個樂透，分別寫出此球是紅球/藍球情況下，你所獲得的報酬或損失。</p>
+      <h3 style="text-align:center">請選擇比較吸引你的選項</h3>
 
       <div class="alternatives">
         <div class="option">
           <h2>左</h2>
-          <p>payoffA：<span id="left-a"></span></p>
-          <p>payoffB：<span id="left-b"></span></p>
+          <p>藍球：<span id="left-a"></span></p>
+          <p>紅球：<span id="left-b"></span></p>
         </div>
         <div class="option">
           <h2>右</h2>
-          <p>payoffA：<span id="right-a"></span></p>
-          <p>payoffB：<span id="right-b"></span></p>
+          <p>藍球：<span id="right-a"></span></p>
+          <p>紅球：<span id="right-b"></span></p>
         </div>
       </div>
       
@@ -94,23 +99,26 @@
         <button id="next-button">Next Round</button>
       </div>
 
-      <!-- 全部 round 結束：返回開始（預設隱藏） -->
-      <div class="choices" id="end" hidden>
-        <button id="restart-button">返回開始</button>
-      </div>
-
       <h3>Details</h3>
-      <p id="status"></p>
-      <table>
-        <thead>
-          <tr><th>Iteration</th><th>targetValue</th><th>Last stepSize</th><th>Bounds</th></tr>
-        </thead>
-        <tbody id="debug-body"></tbody>
-      </table>
-
-      <!-- 全部結束後顯示最終估計序列 -->
-      <div id="result" hidden></div>
+      <div id="debug">
+        <p id="status"></p>
+        <table>
+          <thead>
+            <tr><th>Iteration</th><th>targetValue</th><th>Last stepSize</th><th>Bounds</th></tr>
+          </thead>
+          <tbody id="debug-body"></tbody>
+        </table>
+      </div>        
     </section>
+    
+    <!-- 全部結束後顯示最終估計序列 -->
+    <div id="result" hidden>
+    </div>
+    
+    <!-- 全部 round 結束：返回開始（預設隱藏） -->
+    <div class="choices" id="end" hidden>
+      <button id="restart-button">返回開始</button>
+    </div>
 
     <script type="module" src="./dist/main.js"></script>
   </body>

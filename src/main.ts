@@ -73,7 +73,6 @@ function main(): void {
     sliderConfirm: byId<HTMLButtonElement>("slider-confirm"),
     next: byId("next"),
     end: byId("end"),
-    taskInfo: byId("task-info"),
     result: byId("result"),
   });
 

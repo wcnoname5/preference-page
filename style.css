@@ -10,6 +10,11 @@ fieldset {
   margin-bottom: 1rem;
 }
 
+fieldset ol {
+  margin: 0.5rem 0 0 1.25rem;
+  padding-left: 1rem;
+}
+
 fieldset label {
   display: block;
   margin: 0.25rem 0;
@@ -42,23 +47,6 @@ fieldset label {
   border: 2px solid transparent;
   border-radius: 4px;
   padding: 0.1rem 0.4rem;
-}
-
-.option p.target {
-  border-color: #000;
-}
-
-/* payoff font color */
-.pos {
-  color: #1565c0;
-}
-
-.neg {
-  color: #c62828;
-}
-
-.zero {
-  color: #000;
 }
 
 #slider-area {

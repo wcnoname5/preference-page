@@ -1,11 +1,8 @@
 import {
   Alternatives,
   AlgorithmState,
-  PayoffField,
-  Selection,
   SliderSpec,
   Task,
-  TargetCell,
 } from "./types.js";
 import { resolveTarget } from "./algorithms.js";
 
@@ -24,7 +21,6 @@ export interface ViewElements {
   sliderConfirm: HTMLButtonElement;
   next: HTMLElement;
   end: HTMLElement;
-  taskInfo: HTMLElement;
   result: HTMLElement;
 }
 
@@ -32,36 +28,24 @@ export interface ViewElements {
 export class View {
   constructor(private readonly els: ViewElements) {}
 
+  // 目前 stage / target 進度，會併進 status 一起顯示
+  private taskHeader = "";
+
   render(alt: Alternatives, state: AlgorithmState): void {
     this.paint(this.els.leftA, alt.left.payoffA);
     this.paint(this.els.leftB, alt.left.payoffB);
     this.paint(this.els.rightA, alt.right.payoffA);
     this.paint(this.els.rightB, alt.right.payoffB);
-    this.markTarget(resolveTarget(state));
     this.els.status.textContent =
-      `Stage ${state.stage} · Iteration ${state.iteration} · Step Size = ${Math.round(state.stepSize)} · Target Value = ${state.value}`;
+      `${this.taskHeader} · Iteration ${state.iteration} · Step Size = ${Math.round(state.stepSize)} · Target Value = ${state.value}`;
   }
 
-  // 寫入數值，並依正負上色（正藍、負紅、零黑）
+  // 寫入數值
   private paint(span: HTMLElement, value: number): void {
     span.textContent = String(value);
-    span.classList.remove("pos", "neg", "zero");
-    span.classList.add(value > 0 ? "pos" : value < 0 ? "neg" : "zero");
+    span.style.fontWeight = "bold";
   }
 
-  // 用黑框標出目標所在的那一格 payoff
-  private markTarget(target: TargetCell): void {
-    const cells: Array<[Selection, PayoffField, HTMLElement]> = [
-      ["left", "payoffA", this.els.leftA],
-      ["left", "payoffB", this.els.leftB],
-      ["right", "payoffA", this.els.rightA],
-      ["right", "payoffB", this.els.rightB],
-    ];
-    for (const [side, field, span] of cells) {
-      const isTarget = side === target.side && field === target.field;
-      span.closest("p")?.classList.toggle("target", isTarget);
-    }
-  }
 
   // 在 debug 表格新增一列：iteration / targetValue / stepSize / bnds
   log(alt: Alternatives, state: AlgorithmState): void {
@@ -105,9 +89,9 @@ export class View {
 
   // ============= 實驗（跨 target）層級 =============
 
-  // 顯示目前在哪個 stage / target，以及進度
+  // 記下目前 stage / target 進度
   setTaskInfo(task: Task, index: number, total: number): void {
-    this.els.taskInfo.textContent = `Stage ${task.stage} · 目標 ${task.name}（${index + 1} / ${total}）`;
+    this.taskHeader = `Stage ${task.stage} · 目標 ${task.name}（${index + 1} / ${total}）`;
   }
 
   // 開始一個 target：恢復選擇按鈕、隱藏結束/下一輪/結果、清空上一輪表格
