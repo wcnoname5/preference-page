@@ -59,6 +59,7 @@ function main(): void {
   enforceIntegerMessage(byId<HTMLInputElement>("threshold"));
 
   const view = new View({
+    experiment: experimentSection,
     leftA: byId("left-a"),
     leftB: byId("left-b"),
     rightA: byId("right-a"),
@@ -107,6 +108,8 @@ function main(): void {
   // 返回開始：回到設定畫面
   restartButton.onclick = () => {
     experiment = null;
+    byId("end").hidden = true;
+    byId("result").hidden = true;
     experimentSection.hidden = true;
     setupSection.hidden = false;
   };

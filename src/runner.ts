@@ -156,7 +156,10 @@ export class Experiment {
     if (this.index < this.names.length - 1) {
       this.view.showNextRound(task.name, finalTarget);
     } else {
-      this.view.showFinal(this.logger.finalSequence(this.config.k));
+      this.view.showFinal(
+        this.logger.finalSequence(this.config.k),
+        this.logger.computeLossAversion(this.config.k)
+      );
     }
   }
 }
