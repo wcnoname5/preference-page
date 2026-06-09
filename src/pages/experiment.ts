@@ -1,10 +1,10 @@
-import { ExperimentConfig, StopCondition, UpdateAlgorithm } from "../types.js";
+import { stdSeq, ExperimentConfig, StopCondition, UpdateAlgorithm } from "../types.js";
 import { View, ViewElements } from "../view.js";
 import { Experiment } from "../runner.js";
 import { LossAversionResult } from "../taskLogger.js";
 
 export type DoneCallback = (
-  sequence: { name: string; value: number }[],
+  sequence: stdSeq,
   lossAversion: LossAversionResult
 ) => void;
 

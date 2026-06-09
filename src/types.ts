@@ -7,6 +7,8 @@ export type Selection = "left" | "right";
 
 export type PayoffField = "payoffA" | "payoffB";
 
+export type stdSeq = { name: string; value: number ; utility: number }[];
+
 export interface TargetCell {
   side: Selection;
   field: PayoffField;

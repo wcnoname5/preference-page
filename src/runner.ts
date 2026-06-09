@@ -1,4 +1,5 @@
 import {
+  stdSeq,
   AlgorithmState,
   Alternatives,
   ExperimentConfig,
@@ -115,7 +116,7 @@ export class Experiment {
     private readonly makeAlgorithm: () => UpdateAlgorithm,
     private readonly makeStopCondition: () => StopCondition,
     private readonly view: View,
-    private readonly onDone: (sequence: { name: string; value: number }[], lossAversion: LossAversionResult) => void
+    private readonly onDone: (sequence: stdSeq, lossAversion: LossAversionResult) => void
   ) {
     this.names = targetNames(config.k);
   }

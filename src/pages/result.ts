@@ -1,7 +1,14 @@
+import type { Chart as ChartClass } from "chart.js";
+import { stdSeq } from "../types.js";
 import { LossAversionResult } from "../taskLogger.js";
 import { byId } from "../dom.js";
 
+// Chart is loaded as UMD via CDN script tag — it's a global at runtime
+declare const Chart: typeof ChartClass;
+
 export class ResultPage {
+  private chart: ChartClass | null = null;
+
   constructor(
     private readonly container: HTMLElement,
     onRestart: () => void
@@ -9,13 +16,72 @@ export class ResultPage {
     byId<HTMLButtonElement>("restart-button").onclick = onRestart;
   }
 
-  show(sequence: { name: string; value: number }[], lossAversion: LossAversionResult): void {
+  show(sequence: stdSeq, lossAversion: LossAversionResult): void {
     byId("end").hidden = false;
     this.renderResult(sequence);
+    this.renderSequenceChart(sequence);
     this.renderLossAversion(lossAversion);
   }
 
-  private renderResult(sequence: { name: string; value: number }[]): void {
+  private renderSequenceChart(sequence: stdSeq): void {
+    this.chart?.destroy();
+    
+    const points = sequence.map(({ value, utility }) => ({ x: value, y: utility }));
+    const yToName = new Map(sequence.map((s) => [s.utility, s.name]));
+    const zeroAxisGrid = {
+      color: (ctx: { tick?: { value: number | string } }) =>
+        Number(ctx.tick?.value) === 0 ? "rgba(0, 0, 0, 0.65)" : "rgba(0, 0, 0, 0.1)",
+      lineWidth: (ctx: { tick?: { value: number | string } }) =>
+        Number(ctx.tick?.value) === 0 ? 2 : 1,
+    };
+    this.chart = new Chart(byId<HTMLCanvasElement>("sequence-chart"), {
+      type: "scatter",
+      data: {
+        datasets: [
+          {
+            label: "Indifference sequence",
+            data: points,
+            showLine: true,
+            fill: false,
+            tension: 0,
+            pointRadius: 5,
+            borderColor: "steelblue",
+            backgroundColor: "steelblue",
+          },
+        ],
+      },
+      options: {
+        scales: {
+          x: {
+            title: { display: true, text: "Monetary value" },
+            grid: zeroAxisGrid,
+          },
+          y: {
+            title: { display: true, text: "Utility index" },
+            grid: zeroAxisGrid,
+            ticks: {
+              stepSize: 1,
+              callback: (val) => yToName.get(val as number) ?? val,
+            },
+          },
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                const { x, y } = ctx.parsed;
+                const name = y !== null ? (yToName.get(y) ?? y) : y;
+                return `${name}: ${x}`;
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  private renderResult(sequence: stdSeq): void {
     const heading = document.createElement("h2");
     heading.textContent = "實驗結果";
 
@@ -36,7 +102,8 @@ export class ResultPage {
     const table = document.createElement("table");
     table.append(caption, body);
 
-    this.container.replaceChildren(heading, table);
+    const content = byId("result-content");
+    content.replaceChildren(heading, table);
     this.container.hidden = false;
   }
 
@@ -91,7 +158,7 @@ export class ResultPage {
     ktClass.textContent = `Classification: ${ResultPage.classLabel(result.kt.classification)}`;
 
     section.append(ktTitle, table, ktClass);
-    this.container.appendChild(section);
+    byId("result-content").appendChild(section);
   }
 
   private static classLabel(c: "loss_averse" | "gain_seeking" | "neutral"): string {

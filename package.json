@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "chart.js": "^4.5.1",
     "typescript": "^6.0.3"
   }
 }

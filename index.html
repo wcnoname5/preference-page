@@ -113,12 +113,14 @@
     
     <!-- 全部結束後顯示最終估計序列 -->
     <section id="result" hidden>
-      
+      <canvas id="sequence-chart" style="max-width:1000px; margin: 1rem auto; display:block;"></canvas>
+      <div id="result-content"></div>
       <div class="choices" id="end" hidden>
         <button id="restart-button">返回開始</button>
       </div>
     </section>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <script type="module" src="./dist/main.js"></script>
   </body>
 </html>

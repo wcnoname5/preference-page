@@ -1,3 +1,4 @@
+import { stdSeq } from "./types.js";
 export interface KTRatioEntry {
   i: number;
   ratioPos: number | null; // -v(-xi+) / v(xi+)
@@ -21,10 +22,8 @@ export interface LossAversionResult {
   kt: KTResult;
 }
 
-type Seq = { name: string; value: number }[];
-
 // v(seq[j]) = j - zeroIdx (utility increases by 1 per step)
-function interpolateUtility(y: number, seq: Seq): number | null {
+function interpolateUtility(y: number, seq: stdSeq): number | null {
   const zeroIdx = seq.findIndex((s) => s.name === "0");
   for (let j = 0; j < seq.length - 1; j++) {
     const lo = seq[j].value;
@@ -43,7 +42,7 @@ function calcMedian(values: number[]): number {
   return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
 }
 
-function computeKW(seq: Seq): KWResult {
+function computeKW(seq: stdSeq): KWResult {
   const x1pos = seq.find((s) => s.name === "x1+")!.value;
   const x1neg = seq.find((s) => s.name === "x1-")!.value;
   const lambda = x1pos / -x1neg;
@@ -51,7 +50,7 @@ function computeKW(seq: Seq): KWResult {
   return { lambda, classification };
 }
 
-function computeKT(seq: Seq, k: number): KTResult {
+function computeKT(seq: stdSeq, k: number): KTResult {
   const zeroIdx = seq.findIndex((s) => s.name === "0");
   const entries: KTRatioEntry[] = [];
 
@@ -109,14 +108,14 @@ export class TaskLogger {
   }
 
   // { x_k-, ..., x1-, 0, x1+, ..., x_k+ }
-  finalSequence(k: number): Seq {
-    const seq: Seq = [];
+  finalSequence(k: number): stdSeq {
+    const seq: stdSeq = [];
     for (let i = k; i >= 1; i--) {
-      seq.push({ name: `x${i}-`, value: this.get(`x${i}neg`) });
+      seq.push({ name: `x${i}-`, value: this.get(`x${i}neg`), utility: -i });
     }
-    seq.push({ name: "0", value: 0 });
+    seq.push({ name: "0", value: 0, utility: 0 });
     for (let i = 1; i <= k; i++) {
-      seq.push({ name: `x${i}+`, value: this.get(`x${i}pos`) });
+      seq.push({ name: `x${i}+`, value: this.get(`x${i}pos`), utility: i });
     }
     return seq;
   }
