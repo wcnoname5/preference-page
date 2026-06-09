@@ -10,7 +10,7 @@ import {
 } from "./types.js";
 import { View } from "./view.js";
 import { buildTask, placeTarget, targetNames } from "./tasks.js";
-import { TaskLogger } from "./taskLogger.js";
+import { LossAversionResult, TaskLogger } from "./taskLogger.js";
 
 // 演算法是否支援 slider 收尾步驟（目前只有 BiM-S）
 function isSliderFinalizable(algo: UpdateAlgorithm): algo is UpdateAlgorithm & SliderFinalizable {
@@ -114,7 +114,8 @@ export class Experiment {
     private readonly config: ExperimentConfig,
     private readonly makeAlgorithm: () => UpdateAlgorithm,
     private readonly makeStopCondition: () => StopCondition,
-    private readonly view: View
+    private readonly view: View,
+    private readonly onDone: (sequence: { name: string; value: number }[], lossAversion: LossAversionResult) => void
   ) {
     this.names = targetNames(config.k);
   }
@@ -156,7 +157,7 @@ export class Experiment {
     if (this.index < this.names.length - 1) {
       this.view.showNextRound(task.name, finalTarget);
     } else {
-      this.view.showFinal(
+      this.onDone(
         this.logger.finalSequence(this.config.k),
         this.logger.computeLossAversion(this.config.k)
       );
