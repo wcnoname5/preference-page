@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>偏好測量實驗 Demo</title>
+    <title>適測性演算法於偏好測量實驗實作 Demo</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
@@ -49,7 +49,7 @@
         </fieldset>
 
         <fieldset>
-          <legend> 初始值(及初始邊界)設定</legend>
+          <legend> 初始值(及初始區間)設定</legend>
           <p>每次測量開始時初始值(如果是 BiM 或 BiM-S，則同時決定初始區間)決定的方法，共兩類：</p>
           <ol>
             <li>Equal-expectation：初始值設在使得<b>兩個選項期望值相等</b>的位置。</li>
@@ -57,7 +57,7 @@
           </ol>
           <!-- TODO: if algorithm === "ASA" or === "HaB", disable the fixed bnd option -->
           <label><input type="radio" name="bound" value="equal_expectation" checked /> Equal-expectation</label>
-          <label><input type="radio" name="bound" value="fixed_bnd" /> Fixed width（5000）</label>
+          <label><input type="radio" name="bound" value="fixed_bnd" /> Fixed Boundary Width（=5000）</label>
         </fieldset>
 
         <button type="submit">Start</button>
