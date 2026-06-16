@@ -66,7 +66,7 @@
     
     <!-- 實驗主畫面 -->
     <section id="experiment" hidden>
-      <p class="task-description">一罐子內有若干紅色、藍色球，你不知道其比例。現在從罐中抽取一顆球。以下有兩個樂透，分別寫出此球是紅球/藍球情況下，你所獲得的報酬或損失。</p>
+      <p class="task-description">一罐子內有若干紅色、藍色球，你不知道其比例。現在從罐中抽取一顆球。<br>以下兩選項各為一個樂透，分別寫出此球是紅球/藍球情況下，你所獲得的報酬或損失。</p>
       <h3 style="text-align:center">請選擇比較吸引你的選項</h3>
 
       <div class="alternatives">
@@ -99,21 +99,25 @@
         <button id="next-button">Next Round</button>
       </div>
 
-      <h3>Details</h3>
-      <div id="debug">
-        <p id="status"></p>
-        <table>
-          <thead>
-            <tr><th>Iteration</th><th>targetValue</th><th>Last stepSize</th><th>Bounds</th></tr>
-          </thead>
-          <tbody id="debug-body"></tbody>
-        </table>
-      </div>        
+      <details>
+        <summary>Details</summary>
+        <div id="debug">
+          <p id="status"></p>
+          <table>
+            <thead>
+              <tr><th>Iteration</th><th>targetValue</th><th>Last stepSize</th><th>Bounds</th></tr>
+            </thead>
+            <tbody id="debug-body"></tbody>
+          </table>
+        </div>        
+      </details>
     </section>
     
     <!-- 全部結束後顯示最終估計序列 -->
     <section id="result" hidden>
-      <canvas id="sequence-chart" style="max-width:1000px; margin: 1rem auto; display:block;"></canvas>
+      <div style="max-width:700px; margin: 1rem auto;">
+        <canvas id="sequence-chart"></canvas>
+      </div>
       <div id="result-content"></div>
       <div class="choices" id="end" hidden>
         <button id="restart-button">返回開始</button>

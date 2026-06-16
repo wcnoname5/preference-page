@@ -81,7 +81,7 @@ export class View {
   }
 
   setTaskInfo(task: Task, index: number, total: number): void {
-    this.taskHeader = `Stage ${task.stage} · 目標 ${task.name}（${index + 1} / ${total}）`;
+    this.taskHeader = `目標 ${task.name}（${index + 1} / ${total}）`;
   }
 
   beginRound(): void {
