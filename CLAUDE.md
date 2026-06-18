@@ -13,10 +13,20 @@ forced choice）偏好選擇實驗的 demo**：畫面呈現兩個選項，使用
 
 ## Tech Stack
 
-- **HTML + CSS + TypeScript**，不使用任何前端框架。
-- 演算法用 TypeScript 實作（演算法內容幾乎只有四則運算）。
-- 用 `tsc` 把 `.ts` 編成 `.js`，連同 `.html` / `.css` 一起部署。
-- 部署：GitHub Pages（純靜態）。
+- **Vite + React + TypeScript + TailwindCSS**。
+- 演算法用 TypeScript 實作（演算法內容幾乎只有四則運算），放在 `src/logic/`，
+  與 React UI 完全分離，不碰 DOM。
+- UI 在 `src/components/`，狀態經 `src/hooks/useExperiment.ts` 由
+  `src/logic/experiment.ts`（headless controller）驅動。
+- Tailwind v4 透過 `@tailwindcss/vite`，沒有 `tailwind.config.js`。
+- 用 `npm run build`（`tsc -b && vite build`）輸出到 `dist/`。
+- 部署：GitHub Pages（純靜態），Vite `base` 設為 `/preference-page/`。
+
+## 開發指令
+
+- `npm run dev`：本機開發（localhost）。
+- `npm run build`：型別檢查 + 打包到 `dist/`。
+- `npm run smoke`：用 controller 跑一輪完整 HaB 流程的煙霧測試。
 
 ## 注意事項
 
