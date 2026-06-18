@@ -1,6 +1,6 @@
 # Adaptive Methods for Indifference Point Elicitation
 
-> English | [繁體中文](#適測性無異點推估方法)
+> English | [繁體中文](#適測性無異點推估方法) | 🔗 **[Live demo](https://wcnoname5.github.io/preference-page/)**
 
 A front-end web page that measures a participant's value (utility) function through repeated binary choices, and estimates their loss aversion.
 
@@ -83,26 +83,34 @@ Other methods compared in the thesis are not implemented here due to their perfo
 
 ## Tech Stack
 
-- **TypeScript**, compiled with `tsc` to plain ES modules — no front-end framework;
-  [Chart.js](https://www.chartjs.org/) (via CDN) for the result plot.
+- **Vite + React + TypeScript + TailwindCSS**.
+- The elicitation algorithms live in `src/logic/` as framework-agnostic
+  TypeScript, fully separated from the React UI in `src/components/`.
+- [Chart.js](https://www.chartjs.org/) (via [react-chartjs-2](https://react-chartjs-2.js.org/)) for the result plot.
+- Deploys to GitHub Pages as a static site (Vite `base` = `/preference-page/`).
 
 ## Local Development and Testing
 
 One-time setup:
 ```bash
-npm install -D typescript
-npx tsc --init
+npm install
 ```
 
-For local development (compile in watch mode + serve over http):
+For local development:
 ```bash
-npx tsc --watch
-npx serve
+npm run dev
 ```
+
+Production build and smoke check:
+```bash
+npm run build   # type-check + bundle into dist/
+npm run smoke   # run a full HaB elicitation through the controller
+```
+---
 
 # 適測性無異點推估方法
 
-> [English](#adaptive-methods-for-indifference-point-elicitation) | 繁體中文
+> [English](#adaptive-methods-for-indifference-point-elicitation) | 繁體中文 | 🔗 **[Live demo](https://wcnoname5.github.io/preference-page/)**
 
 一個前端網頁，透過反覆的二擇一選擇來測量受試者的價值（效用）函數，並估計其損失趨避程度。
 
@@ -177,21 +185,28 @@ $T$ 在哪個數值下，這個人會認為兩者*無異*？
 
 論文中比較過的其他方法，因表現考量，未在此實作。
 
-## 技術堆疊
+## 技術棧
 
-- **TypeScript**，以 `tsc` 編譯成純 ES modules——不使用任何前端框架；
-  結果圖表使用 [Chart.js](https://www.chartjs.org/)（透過 CDN）。
+- **Vite + React + TypeScript + TailwindCSS**。
+- 推估演算法放在 `src/logic/`，為與框架無關的純 TypeScript，
+  與 `src/components/` 的 React UI 完全分離。
+- 結果圖表使用 [Chart.js](https://www.chartjs.org/)（透過 [react-chartjs-2](https://react-chartjs-2.js.org/)）。
+- 以靜態網站部署到 GitHub Pages（Vite `base` = `/preference-page/`）。
 
 ## 本機開發與測試
 
 一次性設定：
 ```bash
-npm install -D typescript
-npx tsc --init
+npm install
 ```
 
-本機開發（watch 模式編譯 + 以 http 提供）：
+本機開發：
 ```bash
-npx tsc --watch
-npx serve
+npm run dev
+```
+
+正式打包與smoke test：
+```bash
+npm run build   # 型別檢查 + 打包到 dist/
+npm run smoke   # 用 controller 跑一輪完整的 HaB 推估流程
 ```

@@ -97,12 +97,12 @@ function SequenceTable({ sequence }: { sequence: stdSeq }) {
 function LossAversion({ result }: { result: LossAversionResult }) {
   return (
     <div className="mt-4">
-      <h3 className="font-semibold">KW Index（Köbberling-Wakker）</h3>
+      <h3 className="font-semibold">KW(Köbberling-Wakker) Index</h3>
       <p>
         λ = x₁⁺ / (−x₁⁻) = {fmt(result.kw.lambda)}　→　{classLabel(result.kw.classification)}
       </p>
 
-      <h3 className="mt-3 font-semibold">KT Index（Kahneman-Tversky）</h3>
+      <h3 className="mt-3 font-semibold">KT(Kahneman-Tversky) Index</h3>
       <table className="w-full border-collapse">
         <thead>
           <tr>

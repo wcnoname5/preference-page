@@ -132,6 +132,7 @@ export class ExperimentController {
   private index = 0;
   private round!: Round;
   private taskHeader = "";
+  private taskName = "";
   private phase: Phase = "choosing";
   private sliderSpec?: SliderSpec;
   private result?: { sequence: stdSeq; lossAversion: LossAversionResult };
@@ -181,6 +182,7 @@ export class ExperimentController {
 
   private runCurrent(): void {
     const task = buildTask(this.index, this.logger, this.config);
+    this.taskName = task.name;
     this.taskHeader = `目標 ${task.name}（${this.index + 1} / ${this.names.length}）`;
     this.phase = "choosing";
     this.sliderSpec = undefined;
@@ -209,7 +211,7 @@ export class ExperimentController {
   private currentStatus(): string {
     if (this.phase === "slider") return "用 slider 調整到兩個選項相等吸引你，再按確定";
     if (this.phase === "roundDone") {
-      return `${this.round.state.value} 完成。按 Next Round 繼續`;
+      return `完成測量 ${this.taskName} = ${this.round.state.value} 按 Next Round 繼續`;
     }
     return statusLine(this.taskHeader, this.round.state);
   }
