@@ -6,8 +6,8 @@ import {
   TargetCell,
   TaskSetup,
   UpdateAlgorithm,
-} from "./types.js";
-import { DEFAULT_ASAc } from "./config.js";
+} from "./types";
+import { DEFAULT_ASAc } from "./config";
 
 // Bisection Helpers 
 const midpoint = ([a, b]: [number, number]): number => (a + b) / 2;

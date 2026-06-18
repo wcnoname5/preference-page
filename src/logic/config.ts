@@ -1,4 +1,4 @@
-import { ExperimentConfig } from "./types.js";
+import { ExperimentConfig } from "./types";
 
 export const EXP_BASE_CONFIG: Omit<ExperimentConfig, "boundScheme"> = {
   G: 2000,

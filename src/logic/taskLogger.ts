@@ -1,4 +1,4 @@
-import { stdSeq } from "./types.js";
+import { stdSeq } from "./types";
 export interface KTRatioEntry {
   i: number;
   ratioPos: number | null; // -v(-xi+) / v(xi+)

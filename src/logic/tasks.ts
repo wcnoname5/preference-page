@@ -1,5 +1,5 @@
-import { Alternatives, BoundScheme, ExperimentConfig, Task, TargetCell } from "./types.js";
-import { TaskLogger } from "./taskLogger.js";
+import { Alternatives, BoundScheme, ExperimentConfig, Task, TargetCell } from "./types";
+import { TaskLogger } from "./taskLogger";
 
 const FIXED_BND_WIDTH = 5000;
 

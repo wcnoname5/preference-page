@@ -1,4 +1,4 @@
-import { AlgorithmState, StopCondition } from "./types.js";
+import { AlgorithmState, StopCondition } from "./types";
 
 // End when iteration >= n
 export class FixedIterations implements StopCondition {
