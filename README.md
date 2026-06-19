@@ -1,14 +1,14 @@
 # Adaptive Methods for Indifference Point Elicitation
 
-> English | [繁體中文](#適測性無異點推估方法) | 🔗 **[Live demo](https://wcnoname5.github.io/preference-page/)**
+> English | [繁體中文](#適測性方法用於無異點測量) | 🔗 **[Live demo](https://wcnoname5.github.io/preference-page/)**
 
-A front-end web page that measures a participant's value (utility) function through repeated binary choices, and estimates their loss aversion.
+A web-based experiment for measuring value (utility) functions, featuring several adaptive algorithms for indifference point elicitation. 
 
-Two main features are implemented in this project:
+This project implements the following from [my master's thesis](https://doi.org/10.6342/NTU202501601):
 
-1. The trade-off experiment from [Abdellaoui et al. (2016)](https://doi.org/10.1007/s11166-016-9234-y), which provides a non-parametric procedure to estimate one's loss aversion.
+1. The trade-off experiment from [Abdellaoui et al. (2016)](https://doi.org/10.1007/s11166-016-9234-y), which measures one's loss aversion by eliciting a sequence of indifference points.
 
-2. *Adaptive updating algorithms* in the choice-based indifference point elicitation.
+2. **Adaptive methods** for choice-based indifference point elicitation.
 
 ## Introduction & Motivation
 
@@ -37,8 +37,7 @@ a stop criterion is met.
 > For example, start with $T=\$50$. If the participant prefers the certain amount, lower
 > $T$; if they prefer the bet, raise $T$. Present the updated options next time, and so on.
 
-The rule that updates the target after each choice is crucial — and the focus of this
-demo.
+The rule that updates the target after each choice is crucial — this demo features several *adaptive algorithms* for this update step.
 
 ## Experiment
 
@@ -61,8 +60,7 @@ outcomes.
         - *Fixed Boundary Width* (a fixed-width starting interval of 5000,  used by `BiM` / `BiM-S`).
 
 2. **Make choices.** Each trial shows two options (**left** / **right**). Pick whichever option is more attractive to you.
-    -  The **Details** table logs each iteration's target value, step size, and working bounds.
-
+    -  The **Details** table logs each iteration's target value, step size, and working bounds. These logs help illustrate how the algorithm works in practice.
 3. **Slider finish (BiM-S only).** When `BiM-S` reaches its stop criterion, a slider appears so you can fine-tune the final indifference value directly.
 
 4. **Next round.** Each elicited value feeds into the next task, so the experiment walks
@@ -72,14 +70,14 @@ outcomes.
 
 ### Updating algorithms
 
-See [this thesis](https://doi.org/10.6342/NTU202501601) for algorithm details and the comparison behind the choices here:
+Four updating algorithms are implemented in this demo:
 
 - **BiM** (Bisection Method).
 - **BiM-S** (a slider variant of BiM)
 - **HaB** (Halved method of Bisection; named *SimpBisection* in the thesis)
 - **ASA** (Accelerated Stochastic Approximation)
 
-Other methods compared in the thesis are not implemented here due to their performance.
+Details about the algorithms and setup (stopping criterion, initial points determination rules) are described in [my thesis](https://doi.org/10.6342/NTU202501601). Other algorithms compared in the thesis are excluded here as they were outperformed.
 
 ## Tech Stack
 
@@ -108,21 +106,21 @@ npm run smoke   # run a full HaB elicitation through the controller
 ```
 ---
 
-# 適測性無異點推估方法
+# 適測性方法用於無異點測量
 
 > [English](#adaptive-methods-for-indifference-point-elicitation) | 繁體中文 | 🔗 **[Live demo](https://wcnoname5.github.io/preference-page/)**
 
-一個前端網頁，透過反覆的二擇一選擇來測量受試者的價值（效用）函數，並估計其損失趨避程度。
+展示用於測量受試者的效用函數的網頁實驗，並提供多種無異點測量的演算法。
 
-本專案實作兩個主要功能：
+此專案實作[我的碩論](https://doi.org/10.6342/NTU202501601)中提及的以下內容：
 
-1. [Abdellaoui et al. (2016)](https://doi.org/10.1007/s11166-016-9234-y) 的 trade-off 實驗，提供一套無母數程序來估計一個人的損失趨避。
+1. [Abdellaoui et al. (2016)](https://doi.org/10.1007/s11166-016-9234-y) 的 trade-off 實驗，透過測得一連串無異點，來測量一個人的損失趨避(loss aversion)。
 
-2. 用於估計無異點的 *適測性演算法*。
+2. 用於估計無異點的 **適測性(adaptive)方法**。
 
 ## 簡介與動機
 
-在偏好研究中，我們常需要找出一個**無異點**——也就是兩個選項讓一個人相等吸引的數值。
+在偏好研究中，我們常需要找出一個**無異點(indifference point)**——也就是兩個選項讓一個人相等吸引的數值。
 
 舉一個簡單的例子，考慮兩個選項：
 - 一個賭局，有 50% 獲得 \$100，50% 獲得 \$0，
@@ -142,13 +140,13 @@ $T$ 在哪個數值下，這個人會認為兩者*無異*？
 
 更可靠的方式是**基於使用者的序列選擇**：呈現兩個選項，讓受試者挑出較偏好的一個，並依其選擇將**目標值**往上或往下調整。如此反覆，直到滿足終止條件。
 
-> 例如，一開始設定 $T=\$50$。若受試者偏好確定金額，就調低 $T$；若偏好賭局，就調高 $T$。下一次再呈現更新後的選項，依此類推。
+> 例如，一開始呈現 $T=\$50$。若受試者偏好確定金額，就調低 $T$；若偏好賭局，就調高 $T$。下一次再呈現更新後的選項，依此類推。
 
-每次選擇後用來更新目標值的規則，正是關鍵所在——也是這個 demo 的重點。
+每次選擇後用來更新目標值的規則，正是關鍵所在——此專案展示不同的**適測方法**進行更新。
 
 ## 實驗
 
-### 測量了什麼
+### 測量什麼
 
 依循 [Abdellaoui et al. (2016)](https://doi.org/10.1007/s11166-016-9234-y)（包含相關選項的金額設定），實驗會推估出一系列收益與損失的結果值。
 - 序列中的各點在效用上是等距的，藉此描繪出價值函數。
@@ -166,24 +164,24 @@ $T$ 在哪個數值下，這個人會認為兩者*無異*？
         - *Fixed Boundary Width*（固定寬度為 5000 的初始區間，用於 `BiM` / `BiM-S`）。
 
 2. **做選擇。** 每一個 trial 會顯示兩個選項（**左** / **右**）。挑出對你而言較有吸引力的那個。
-    - **Details** 表格會記錄每個 iteration 的目標值、step size 與目前區間。
+    - **Details** 表格提供每個 iteration 的目標值、step size 與目前區間，以實際數值幫助理解演算法實作。
 
 3. **滑桿收尾（僅 BiM-S）。** 當 `BiM-S` 達到終止條件時，會出現一個滑桿，讓你直接微調最終的無異值。
 
 4. **下一回合。** 每個推估出的數值會接續輸入下一個回合，使實驗逐一走過所有目標。
 
-5. **結果。** 測量完最後一個目標後，會呈現圖表繪出估計的價值函數會、列出完整序列，並顯示損失趨避指標。
+5. **結果。** 測量完最後一個目標後，會呈現圖表繪出估計的價值函數、列出完整序列，並顯示損失趨避指標。
 
 ### 更新演算法
 
-演算法細節與此處選擇背後的比較，請見[此論文](https://doi.org/10.6342/NTU202501601)：
+此示範網站中共實作四種演算法：
 
 - **BiM**（Bisection Method，二分法）。
-- **BiM-S**（BiM 的加上slider 變體）
+- **BiM-S**（BiM 的 slider 變體）
 - **HaB**（Halved method of Bisection；在論文中稱為 *SimpBisection*）
 - **ASA**（Accelerated Stochastic Approximation）
 
-論文中比較過的其他方法，因表現考量，未在此實作。
+演算法與設定(終止條件、初始值)細節說明請見[論文](https://doi.org/10.6342/NTU202501601)。論文中比較的其餘演算法，因模擬實驗表現較差，未在此實作。
 
 ## 技術棧
 
