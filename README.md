@@ -16,7 +16,7 @@ In preference research, one often needs to locate an **indifference point** — 
 
 As a simple example, consider two options:
 - a bet with a 50% chance of winning \$100 and a 50% chance of winning $0,
-- a certain amount $\$T$.
+- a certain amount $ \$T$.
 
 For what value $T$ is the person *indifferent* between them?
 - If $T<50$ (below the bet's expected value) we call them risk-averse;
@@ -124,7 +124,7 @@ npm run smoke   # run a full HaB elicitation through the controller
 
 舉一個簡單的例子，考慮兩個選項：
 - 一個賭局，有 50% 獲得 \$100，50% 獲得 \$0，
-- 一筆確定金額 $\$T$。
+- 一筆確定金額 $ \$T$。
 
 $T$ 在哪個數值下，這個人會認為兩者*無異*？
 - 若 $T<50$（低於賭局的期望值），我們稱此為風險趨避；
