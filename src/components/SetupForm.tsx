@@ -67,6 +67,20 @@ export function SetupForm({ onStart }: SetupFormProps) {
   }
 
   return (
+    <>
+    <p className="mb-4 rounded border border-sky-200 bg-sky-50 p-3 text-sm">
+      想了解本頁實驗，請參考{" "}
+      <a
+        className="font-medium text-sky-700 underline"
+        href="https://github.com/wcnoname5/preference-page/blob/main/README.md"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub 上的 README 
+      </a>
+      介紹。
+    </p>
+
     <form ref={formRef} onSubmit={handleSubmit}>
       <fieldset className={fieldsetCls}>
         <legend className={legendCls}>更新演算法</legend>
@@ -133,5 +147,6 @@ export function SetupForm({ onStart }: SetupFormProps) {
         Start
       </button>
     </form>
+    </>
   );
 }
